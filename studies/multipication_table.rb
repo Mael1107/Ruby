@@ -9,6 +9,4 @@ def display_table(number)
   end
 end
 
-display_table(5) do |result|
-  puts result if result.even?
-end
+display_table(9) 

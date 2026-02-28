@@ -89,10 +89,14 @@ members.each do |id, data|
   puts "#{data[:name]}:"
 
   if data[:borrowed_books].empty?
-    puts "No books borrowed."
+    puts "  -No books borrowed."
   else
-    puts "#{data[:borrowed_books]}"
+    data[:borrowed_books].each do |book_id|
+      title = books[book_id][:title]
+      puts "  - #{title}"
+    end
   end
+  puts ""
 end
 
 
@@ -113,5 +117,25 @@ puts "Ex: #{updated_books[:book_001]}"
 
 
 def book_lending(book_id, member_id, books, members)
-  
+  if books.key?(book_id) && books[book_id][:available]
+    books[book_id][:available] = false
+    members[member_id][:borrowed_books] << book_id
+    puts "Borrowed book!"
+    return true
+  else
+    puts "it was not possible to borrow the book!"
+    return false
+  end
 end
+
+puts "\n=== TESTING book_lending METHOD ==="
+puts "Before:"
+puts "book_001 available? #{books[:book_001][:available]}"
+puts "Beatriz's books: #{members[:mem_003][:borrowed_books].inspect}"
+
+loan = book_lending(:book_001, :mem_003, books, members)
+
+puts "\nAfter:"
+puts "book_001 available? #{books[:book_001][:available]}"
+puts "Beatriz's books: #{members[:mem_003][:borrowed_books].inspect}"
+puts "Operation result: #{loan}"
