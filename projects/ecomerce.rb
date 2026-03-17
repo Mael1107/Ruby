@@ -9,7 +9,6 @@ produtos = [
 ]
 
 def listar_produtos(produtos, titulo)
-
   if block_given?
     produtos.each_with_index { |p, index| yield(p, index) }
   else
